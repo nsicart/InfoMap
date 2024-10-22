@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubicació en directe</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Inicialitzar el mapa
+        var map = L.map('map').setView([42.0, 1.0], 13); // Coordenades inicials
+
+        // Afegir una capa de mapes (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Afegir un marcador per a la ubicació
+        var marker = L.marker([42.0, 1.0], { icon: L.icon({ iconUrl: 'https://unpkg.com/leaflet/dist/images/marker-icon.png', iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowUrl: 'https://unpkg.com/leaflet/dist/images/marker-shadow.png', shadowSize: [41, 41] }) }).addTo(map);
+
+        // Guardar els punts d'interès i els àudios
+        var pointsOfInterest = [];
+
+        // Funció per reproduir àudio
+        function playAudio(url) {
+            var audio = new Audio(url);
+            audio.play();
+        }
+
+        // Funció per actualitzar la ubicació
+        function updateLocation(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+            marker.setLatLng([lat, lng]); // Actualitzar la posició del marcador
+            map.setView([lat, lng], 16);  // Centrar el mapa en la nova ubicació
+
+            // Comprovar si estem a prop d'algun punt d'interès
+            pointsOfInterest.forEach(function(point) {
+                var distance = map.distance([lat, lng], [point.lat, point.lng]);
+                if (distance < 50 && !point.audioPlayed) { // Si estem a menys de 50 metres i l'àudio no s'ha reproduït encara
+                    playAudio(point.audioUrl);
+                    point.audioPlayed = true; // Marcar que l'àudio ja s'ha reproduït
+                }
+            });
+        }
+
+        // Obtenir la ubicació en directe
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(updateLocation, function(error) {
+                console.error("Error obtenint la ubicació: ", error);
+                alert("No s'ha pogut obtenir la ubicació. Comproveu els permisos de geolocalització al vostre dispositiu.");
+            }, {
+                enableHighAccuracy: true
+            });
+        } else {
+            alert("El teu navegador no suporta la geolocalització.");
+        }
+
+        // Obtenir punts d'interès des de JotForm
+        fetch('https://eu-api.jotform.com/form/242954710671055/submissions?apiKey=5537d3b5552efb27643cda9ac6f409e3') // Canvia YOUR_API_KEY pel teu API Key de JotForm
+            .then(response => response.json())
+            .then(data => {
+                data.content.forEach(function(submission) {
+                    var addressField = submission.answers['6'].answer; // Canvia 'address_field_id' pel ID correcte del camp d'adreça
+                    var audioUrl = submission.answers['8'].answer[0]; // Obtenir l'URL de l'àudio
+                    
+                    // Buscar latitud i longitud dins del camp de text
+                    var latMatch = addressField.match(/Latitude:\s*([\d\.]+)/);
+                    var lngMatch = addressField.match(/Longitude:\s*([\d\.]+)/);
+
+                    if (latMatch && lngMatch) {
+                        var lat = parseFloat(latMatch[1]);
+                        var lng = parseFloat(lngMatch[1]);
+
+                        L.marker([lat, lng]).addTo(map);
+
+                        // Afegir el punt d'interès a la llista
+                        pointsOfInterest.push({ lat: lat, lng: lng, audioUrl: audioUrl, audioPlayed: false });
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error carregant els punts d’interès: ', error);
+            });
+    </script>
+</body>
+</html>
