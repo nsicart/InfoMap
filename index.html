@@ -44,11 +44,9 @@
         }
         #addPointButton { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; background-color: #28a745; color: white; border: none; padding: 10px; cursor: pointer; }
     </style>
-    <style>
-        #addPointButton { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; background-color: #28a745; color: white; border: none; padding: 10px; cursor: pointer; }
-    </style>
+    
 <body>
-    <button id="playButton">Activar Reproducció d'Àudio</button>
+    <button id="playButton">Activar Reproducció Automàtica</button>
     <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
@@ -100,7 +98,7 @@
             pointsOfInterest.forEach(function(point) {
                 var distance = map.distance([lat, lng], [point.lat, point.lng]);
                 console.log("Distància al punt d'interès (", point.lat, point.lng, "): ", distance);
-                if (distance < 200 && !point.audioPlayed) { // Si estem a menys de 50 metres i l'àudio no s'ha reproduït encara
+                if (distance < 80 && !point.audioPlayed) { // Si estem a menys de 80 metres i l'àudio no s'ha reproduït encara
                     playAudio(point.audioUrl);
                     point.audioPlayed = true; // Marcar que l'àudio ja s'ha reproduït
                 }
@@ -148,6 +146,9 @@
             });
     </script>
 
+
+<button id="addPointButton">Afegir Punt d'Interès</button>
+
 <div id="modal">
         <div id="modalContent">
             <button id="closeModal">&times;</button>
@@ -167,4 +168,3 @@
     </script>
 </body>
 </html>
-
