@@ -9,7 +9,7 @@
         #map {
             height: 100vh;
         }
-        #playButton { position: absolute; bottom: 10px; left: 10px; z-index: 1000; background-color: #007bff; color: white; border: none; padding: 10px; cursor: pointer; }
+        #playButton { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; background-color: #007bff; color: white; border: none; padding: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -34,8 +34,14 @@
 
         // Botó per activar la reproducció d'àudio
         document.getElementById('playButton').addEventListener('click', function() {
-            audioEnabled = true;
-            alert("Reproducció d'àudio activada. Els àudios es reproduiran automàticament quan t'apropis als punts d'interès.");
+            audioEnabled = !audioEnabled;
+            if (audioEnabled) {
+                this.textContent = 'Parar Reproducció Automàtica';
+                alert("Reproducció d'àudio activada. Els àudios es reproduiran automàticament quan t'apropis als punts d'interès.");
+            } else {
+                this.textContent = 'Activar Reproducció d'Àudio';
+                alert("Reproducció d'àudio desactivada.");
+            }
         });
 
         // Funció per reproduir àudio
