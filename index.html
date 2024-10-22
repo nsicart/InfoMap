@@ -39,7 +39,7 @@
                 this.textContent = 'Parar Reproducció Automàtica';
                 alert("Reproducció d'àudio activada. Els àudios es reproduiran automàticament quan t'apropis als punts d'interès.");
             } else {
-                this.textContent = 'Activar Reproducció Automàtica';
+                this.textContent = 'Activar Reproducció d'Àudio';
                 alert("Reproducció d'àudio desactivada.");
             }
         });
@@ -47,6 +47,7 @@
         // Funció per reproduir àudio
         function playAudio(url) {
             if (audioEnabled) {
+                console.log("Reproduint àudio: ", url);
                 var audio = new Audio(url);
                 audio.play();
             }
@@ -56,12 +57,14 @@
         function updateLocation(position) {
             var lat = position.coords.latitude;
             var lng = position.coords.longitude;
+            console.log("Ubicació actual: ", lat, lng);
             marker.setLatLng([lat, lng]); // Actualitzar la posició del marcador
             map.setView([lat, lng], 16);  // Centrar el mapa en la nova ubicació
 
             // Comprovar si estem a prop d'algun punt d'interès
             pointsOfInterest.forEach(function(point) {
                 var distance = map.distance([lat, lng], [point.lat, point.lng]);
+                console.log("Distància al punt d'interès (", point.lat, point.lng, "): ", distance);
                 if (distance < 200 && !point.audioPlayed) { // Si estem a menys de 50 metres i l'àudio no s'ha reproduït encara
                     playAudio(point.audioUrl);
                     point.audioPlayed = true; // Marcar que l'àudio ja s'ha reproduït
@@ -86,7 +89,7 @@
             .then(response => response.json())
             .then(data => {
                 data.content.forEach(function(submission) {
-                    var addressField = submission.answers['6'].answer; // Canvia 'address_field_id' pel ID correcte del camp d'adreça
+                    var addressField = submission.answers['6'].answer; // Informació de l'adreça
                     var audioUrl = submission.answers['8'].answer[0]; // Obtenir l'URL de l'àudio
                     
                     // Buscar latitud i longitud dins del camp de text
@@ -97,6 +100,7 @@
                         var lat = parseFloat(latMatch[1]);
                         var lng = parseFloat(lngMatch[1]);
 
+                        console.log("Afegint punt d'interès: ", lat, lng, audioUrl);
                         L.marker([lat, lng]).addTo(map);
 
                         // Afegir el punt d'interès a la llista
