@@ -62,7 +62,7 @@
             // Comprovar si estem a prop d'algun punt d'interès
             pointsOfInterest.forEach(function(point) {
                 var distance = map.distance([lat, lng], [point.lat, point.lng]);
-                if (distance < 50 && !point.audioPlayed) { // Si estem a menys de 50 metres i l'àudio no s'ha reproduït encara
+                if (distance < 200 && !point.audioPlayed) { // Si estem a menys de 50 metres i l'àudio no s'ha reproduït encara
                     playAudio(point.audioUrl);
                     point.audioPlayed = true; // Marcar que l'àudio ja s'ha reproduït
                 }
