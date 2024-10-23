@@ -1,10 +1,10 @@
 var audioEnabled = false;
-document.getElementById('playButton').addEventListener('click', toggleAudio);
 
-function toggleAudio() {
+document.getElementById('playButton').addEventListener('click', function() {
     audioEnabled = !audioEnabled;
     this.textContent = audioEnabled ? 'Parar Reproducció Automàtica' : 'Activar Reproducció Automàtica';
-}
+    alert(audioEnabled ? "Reproducció d'àudio activada." : "Reproducció d'àudio desactivada.");
+});
 
 async function getPointDescription(point) {
     try {
@@ -18,11 +18,16 @@ async function getPointDescription(point) {
         if (data.description) {
             const speech = new SpeechSynthesisUtterance(data.description);
             speech.lang = selectedLanguage;
-            if (audioEnabled) {
-                window.speechSynthesis.speak(speech);
-            }
+            window.speechSynthesis.speak(speech);
         }
     } catch (error) {
         console.error('Failed to fetch description:', error);
+    }
+}
+
+function playAudio(url) {
+    if (audioEnabled) {
+        var audio = new Audio(url);
+        audio.play();
     }
 }
