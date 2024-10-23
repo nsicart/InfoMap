@@ -17,7 +17,7 @@ function updateLocation(position) {
 
     pointsOfInterest.forEach(function(point) {
         var distance = map.distance([lat, lng], [point.lat, point.lng]);
-        if (distance < 200 && !point.audioPlayed) {
+        if (distance < 200 && !point.audioPlayed) { // Si estem a menys de 200 metres i l'àudio no s'ha reproduït encara
             if (point.source === 'JotForm') {
                 playJotformAudio(point);
             } else if (point.source === 'OSM' && !point.description) {
@@ -28,4 +28,7 @@ function updateLocation(position) {
             point.audioPlayed = true;
         }
     });
+    if (!pointsOfInterest.some(point => point.source === 'OSM')) {
+                fetchPointsOfInterest(lat, lng);
+            }
 }
