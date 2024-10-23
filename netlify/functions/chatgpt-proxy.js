@@ -1,31 +1,25 @@
-const fetch = require('node-fetch');
+const { Configuration, OpenAIApi } = require('openai');
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY
+});
+const openai = new OpenAIApi(configuration);
 
 exports.handler = async (event) => {
   try {
     const { prompt, language } = JSON.parse(event.body);
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: `Describe the point "${prompt}" in ${language}.` }],
-        max_tokens: 150,
-        temperature: 0.7
-      })
+    const response = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: `Describe the point "${prompt}" in ${language}.` }],
+      max_tokens: 150,
+      temperature: 0.7
     });
 
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-
+    const description = response.data.choices[0].message.content.trim();
     return {
       statusCode: 200,
       headers: { 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ description: data.choices[0].message.content.trim() })
+      body: JSON.stringify({ description })
     };
   } catch (error) {
     return {
