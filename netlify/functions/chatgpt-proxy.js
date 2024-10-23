@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
       },
       body: JSON.stringify({
         model: 'text-davinci-003',
-        prompt: `Proporciona una breu descripció del lloc d'interès "${prompt}" en ${language}.`,
+        prompt: `Provide a brief description of the point of interest "${prompt}" in ${language}.`,
         max_tokens: 150
       })
     });
@@ -23,7 +23,7 @@ exports.handler = async (event, context) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ description: data.choices[0].text.trim() })
     };
   } catch (error) {
     console.error(error);
@@ -37,3 +37,4 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
