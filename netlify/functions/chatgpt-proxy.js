@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 
 exports.handler = async (event, context) => {
+  console.log("OpenAI API Key:", process.env.OPENAI_API_KEY); // Comprovar la clau API
+
   try {
     console.log("Event received:", event);
     const { prompt, language } = JSON.parse(event.body);
