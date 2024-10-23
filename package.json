@@ -2,7 +2,7 @@
   "name": "audioguide-map",
   "version": "1.0.0",
   "dependencies": {
-    "node-fetch": "^2.6.7" // Canviant a la versió 2 de `node-fetch` per suportar `require`.
+    "node-fetch": "^2.6.7"
   }
 }
 
