@@ -1,11 +1,11 @@
 function loadOSMPoints(lat, lng) {
     var queries = [
-        `[out:json];node(around:5000, ${lat}, ${lng})["natural"];out body;`,
-        `[out:json];node(around:5000, ${lat}, ${lng})["waterway"];out body;`,
-        `[out:json];node(around:5000, ${lat}, ${lng})["place"];out body;`,
-        `[out:json];node(around:5000, ${lat}, ${lng})["historic"];out body;`,
-        `[out:json];node(around:5000, ${lat}, ${lng})["settlement"];out body;`
-    ];
+    `[out:json];node(around:5000, ${lat}, ${lng})["natural"];out body;`,
+    `[out:json];node(around:5000, ${lat}, ${lng})["waterway"];out body;`,
+    `[out:json];node(around:5000, ${lat}, ${lng})["place"];out body;`,
+    `[out:json];node(around:5000, ${lat}, ${lng})["historic"];out body;`,
+    `[out:json];node(around:5000, ${lat}, ${lng})["settlement"];out body;`
+];
 
     queries.forEach(query => {
         fetch('https://overpass-api.de/api/interpreter', {
