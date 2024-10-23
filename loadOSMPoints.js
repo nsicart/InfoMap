@@ -7,6 +7,8 @@ function loadOSMPoints(lat, lng) {
         `[out:json];node(around:5000, ${lat}, ${lng})["settlement"];out body;`
     ];
 
+    var osmLayerGroup = L.layerGroup().addTo(map);
+
     queries.forEach(query => {
         fetch('https://overpass-api.de/api/interpreter', {
             method: 'POST',
@@ -15,7 +17,12 @@ function loadOSMPoints(lat, lng) {
             },
             body: 'data=' + encodeURIComponent(query)
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la resposta de l\'API Overpass');
+            }
+            return response.json();
+        })
         .then(data => {
             data.elements.forEach(function(element) {
                 if (element.lat && element.lon && element.tags && element.tags.name) {
@@ -24,8 +31,9 @@ function loadOSMPoints(lat, lng) {
                     var name = element.tags.name;
 
                     console.log("Afegint punt d'interès d'OSM: ", lat, lng, name);
-                    L.circle([lat, lng], { color: 'blue', fillColor: 'transparent', fillOpacity: 0, radius: 50 }).addTo(map)
-                        .bindPopup(name);
+                    L.circle([lat, lng], { color: 'blue', fillColor: 'transparent', fillOpacity: 0, radius: 50 })
+                        .bindPopup(name)
+                        .addTo(osmLayerGroup);
 
                     // Afegir el punt d'interès a la llista
                     pointsOfInterest.push({
@@ -35,6 +43,8 @@ function loadOSMPoints(lat, lng) {
                         audioPlayed: false,
                         source: 'OSM'
                     });
+                } else {
+                    console.warn('Punt d\'interès sense nom, ignorat:', element);
                 }
             });
         })
