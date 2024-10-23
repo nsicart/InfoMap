@@ -1,4 +1,4 @@
-function fetchAndStorePointsOfInterest(lat, lng) {
+function loadOSMPoints(lat, lng) {
     var queries = [
         `[out:json];node(around:5000, ${lat}, ${lng})["natural"];out body;`,
         `[out:json];node(around:5000, ${lat}, ${lng})["waterway"];out body;`,
