@@ -1,4 +1,4 @@
-function loadOSMPoints(lat, lng) {
+function fetchAndStorePointsOfInterest(lat, lng) {
     var queries = [
         `[out:json];node(around:5000, ${lat}, ${lng})["natural"];out body;`,
         `[out:json];node(around:5000, ${lat}, ${lng})["waterway"];out body;`,
@@ -6,8 +6,6 @@ function loadOSMPoints(lat, lng) {
         `[out:json];node(around:5000, ${lat}, ${lng})["historic"];out body;`,
         `[out:json];node(around:5000, ${lat}, ${lng})["settlement"];out body;`
     ];
-
-    var osmLayerGroup = L.layerGroup().addTo(map);
 
     queries.forEach(query => {
         fetch('https://overpass-api.de/api/interpreter', {
@@ -33,9 +31,9 @@ function loadOSMPoints(lat, lng) {
                     console.log("Afegint punt d'interès d'OSM: ", lat, lng, name);
                     L.circle([lat, lng], { color: 'blue', fillColor: 'transparent', fillOpacity: 0, radius: 50 })
                         .bindPopup(name)
-                        .addTo(osmLayerGroup);
+                        .addTo(map);
 
-                    // Afegir el punt d'interès a la llista
+                    // Afegir el punt d'interès a la llista per a una gestió posterior
                     pointsOfInterest.push({
                         lat: lat,
                         lng: lng,
@@ -47,9 +45,13 @@ function loadOSMPoints(lat, lng) {
                     console.warn('Punt d\'interès sense nom, ignorat:', element);
                 }
             });
+            console.log('Punts d’interès de OSM carregats correctament!');
         })
         .catch(error => {
-            console.error('Error carregant els punts d’interès d’OpenStreetMap: ', error);
+            console.error('Error carregant els punts d’interès des d’OpenStreetMap: ', error);
         });
     });
 }
+
+// Llista per mantenir els punts d'interès afegits
+var pointsOfInterest = [];
