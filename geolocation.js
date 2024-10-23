@@ -29,6 +29,6 @@ function updateLocation(position) {
         }
     });
     if (!pointsOfInterest.some(point => point.source === 'OSM')) {
-                fetchPointsOfInterest(lat, lng);
+                loadOSMPoints(lat, lng);
             }
 }
