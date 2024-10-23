@@ -1,4 +1,4 @@
-function fetchJotFormPoints() {
+function loadJotformPoints() {
     fetch('https://eu-api.jotform.com/form/242954710671055/submissions?apiKey=5537d3b5552efb27643cda9ac6f409e3')
         .then(response => response.json())
         .then(data => {
@@ -14,18 +14,24 @@ function fetchJotFormPoints() {
                     var lat = parseFloat(latMatch[1]);
                     var lng = parseFloat(lngMatch[1]);
 
-                    console.log("Afegint punt d'interès: ", lat, lng, audioUrl);
+                    console.log("Afegint punt d'interès de JotForm: ", lat, lng, audioUrl);
                     L.circle([lat, lng], { color: 'orange', fillColor: 'transparent', fillOpacity: 0, radius: 50 }).addTo(map);
-
-                    if (!audioUrl) {
-                        getPointDescription({ lat, lng, name: "Punt d'interès" });
-                    }
+                    
+                    // Afegir el punt d'interès a la llista
+                    pointsOfInterest.push({
+                        lat: lat,
+                        lng: lng,
+                        audioUrl: audioUrl,
+                        audioPlayed: false,
+                        source: 'JotForm'
+                    });
                 }
             });
         })
         .catch(error => {
-            console.error('Error carregant els punts d’interès: ', error);
+            console.error('Error carregant els punts d’interès de JotForm: ', error);
         });
 }
 
-fetchJotFormPoints();
+loadJotformPoints();
+
