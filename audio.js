@@ -8,7 +8,7 @@ document.getElementById('playButton').addEventListener('click', function() {
 
 async function getPointDescription(point) {
     try {
-        const response = await fetch('/.netlify/functions/chatgpt-proxy', {
+        const response = await fetch('chatgpt-proxy', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt: point.name, language: selectedLanguage })
