@@ -16,6 +16,10 @@ exports.handler = async (event, context) => {
       })
     });
 
+    if (!response.ok) {
+      throw new Error(`API response error: ${response.statusText}`);
+    }
+
     const data = await response.json();
     return {
       statusCode: 200,
@@ -33,7 +37,7 @@ exports.handler = async (event, context) => {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type'
       },
-      body: JSON.stringify({ error: 'Error processing request' })
+      body: JSON.stringify({ error: `Error processing request: ${error.message}` })
     };
   }
 };
