@@ -84,33 +84,26 @@
         
 
         // Funció per obtenir descripció del punt d'interès des de ChatGPT
-        async function getPointDescription(point) {
-    try {
-        const response = await fetch('/.netlify/functions/chatgpt-proxy', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                prompt: point.name,
-                language: selectedLanguage
-            })
-        });
-        const data = await response.json();
-        if (data.description) {
-            const description = data.description.trim();
-            const speech = new SpeechSynthesisUtterance(description);
-            speech.lang = selectedLanguage;
-            window.speechSynthesis.speak(speech);
-            console.log("Descripció generada per a", point.name, ":", description);
-        }
-    } catch (error) {
-        console.error('Error obtenint descripció per al punt d\'interès: ', error);
+      
+async function getPointDescription(point) {
+  try {
+    const response = await fetch('/.netlify/functions/chatgpt-proxy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: point.name, language: selectedLanguage })
+    });
+
+    const data = await response.json();
+    if (data.description) {
+      const speech = new SpeechSynthesisUtterance(data.description);
+      speech.lang = selectedLanguage;
+      window.speechSynthesis.speak(speech);
     }
+  } catch (error) {
+    console.error('Failed to fetch description:', error);
+  }
 }
-
         
-
         // Actualitzar l'idioma seleccionat
         document.getElementById('languageSelect').addEventListener('change', function() {
             selectedLanguage = this.value;
