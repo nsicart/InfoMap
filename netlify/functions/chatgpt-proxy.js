@@ -6,10 +6,10 @@ exports.handler = async (event, context) => {
   try {
     console.log("Event received:", event);
     const { prompt, language } = JSON.parse(event.body);
-    
+
     console.log("Prompt:", prompt);
     console.log("Language:", language);
-    
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -17,7 +17,7 @@ exports.handler = async (event, context) => {
         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4', // Canviar al model correcte, per exemple 'gpt-4' o 'gpt-3.5-turbo'
         messages: [{ role: 'user', content: `Provide a brief description of the point of interest "${prompt}" in ${language}.` }],
         max_tokens: 150,
         temperature: 0.7
@@ -31,12 +31,12 @@ exports.handler = async (event, context) => {
 
     const data = await response.json();
     console.log("API Response:", data);
-    
+
     if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
       console.error("Unexpected API response format", data);
       throw new Error("Unexpected API response format");
     }
-    
+
     return {
       statusCode: 200,
       headers: {
