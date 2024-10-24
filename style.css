@@ -62,8 +62,8 @@
 
 .language-label {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    bottom: 30px;
+    left: 20px;
     z-index: 1000;
     background-color: white;
     padding: 5px;
@@ -72,8 +72,9 @@
 
 .language-select {
     position: absolute;
-    top: 40px;
-    left: 10px;
+    bottom: 10px;
+    left: 20px;
     z-index: 1000;
     padding: 5px;
 }
+
