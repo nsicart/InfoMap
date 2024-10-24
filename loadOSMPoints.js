@@ -69,7 +69,7 @@ async function loadOSMPoints(lat, lng) {
 // Funció per obtenir el punt més proper sobre una carretera
 async function getSnappedPoint(lat, lng) {
     try {
-        const response = await fetch(`https://api.openrouteservice.org/v2/snap-to-road`, {
+        const response = await fetch(`https://api.openrouteservice.org/v2/snap`, {
             method: 'POST',
             headers: {
                 'Authorization': '5b3ce3597851110001cf624865a4163e7b01459ba77212067942a21c', // Substitueix per la teva clau API
