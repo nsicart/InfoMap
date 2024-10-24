@@ -56,6 +56,11 @@ function loadOSMPoints(lat, lng) {
         .catch(error => {
             console.error('Error carregant els punts d’interès des d’OpenStreetMap: ', error);
         });
+
+// Després de carregar tots els punts OSM
+OSMPointsOfInterest.forEach(point => {
+    generateOSMDescription(point, point.lat, point.lng);
+});
     });
 }
 
