@@ -70,7 +70,7 @@ async function getSnappedPoint(lat, lng) {
         const response = await fetch(`https://api.openrouteservice.org/v2/snap-to-road`, {
             method: 'POST',
             headers: {
-                'Authorization': 'clau_api_openrouteservice', // Substitueix per la teva clau API
+                'Authorization': '5b3ce3597851110001cf624865a4163e7b01459ba77212067942a21c', // Substitueix per la teva clau API
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
