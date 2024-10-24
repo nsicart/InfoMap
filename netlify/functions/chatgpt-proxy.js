@@ -9,10 +9,9 @@ exports.handler = async (event) => {
   try {
     const { prompt, language } = JSON.parse(event.body);
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: `Describe the point "${prompt}" in ${language}.` }],
-      max_tokens: 150,
-      temperature: 0.7
+      model: 'gpt-4o',
+      messages: [{ role: 'user', content: prompt }],
+    
     });
 
     const description = response.choices[0].message.content.trim();
