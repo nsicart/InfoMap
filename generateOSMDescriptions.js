@@ -1,7 +1,7 @@
 async function generateOSMDescription(point, currentLat, currentLng) {
     var distance = map.distance([currentLat, currentLng], [point.lat, point.lng]);
     
-    if (distance < 100) { // Només generar descripció si estem a menys de 100 metres
+    if (distance < 100 && !point.description) { // Només generar descripció si estem a menys de 100 metres i no té descripció feta
         try {
             const response = await fetch('/.netlify/functions/chatgpt-proxy', {
                 method: 'POST',
