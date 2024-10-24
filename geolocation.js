@@ -14,4 +14,8 @@ function updateLocation(position) {
     var lng = position.coords.longitude;
     marker.setLatLng([lat, lng]);
     map.setView([lat, lng], 13);
+
+// Carregar punts OSM a prop de la nova ubicació
+    loadOSMPoints(lat, lng);
+
 }
