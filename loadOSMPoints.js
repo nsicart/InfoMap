@@ -56,6 +56,5 @@ function loadOSMPoints(lat, lng) {
         .catch(error => {
             console.error('Error carregant els punts d’interès des d’OpenStreetMap: ', error);
         });
-
-});
+    });
 }
