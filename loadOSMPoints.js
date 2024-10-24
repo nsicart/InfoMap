@@ -57,10 +57,5 @@ function loadOSMPoints(lat, lng) {
             console.error('Error carregant els punts d’interès des d’OpenStreetMap: ', error);
         });
 
-// Cridar a generateOSMDescription i després intentar reproduir l'àudio
-generateOSMDescription(OSMPointsOfInterest[OSMPointsOfInterest.length - 1], lat, lng)
-    .then(() => {
-        playOSMAudio(OSMPointsOfInterest[OSMPointsOfInterest.length - 1], lat, lng);
-    });
 });
 }
