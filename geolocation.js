@@ -18,6 +18,9 @@ function updateLocation(position) {
 // Carregar punts OSM a prop de la nova ubicació
     loadOSMPoints(lat, lng);
 
-
+// Reproduir àudio per als punts de JotForm si es compleixen les condicions
+    JotformPointsOfInterest.forEach(point => {
+        playJotformAudio(point, lat, lng);
+    });
 
 }
