@@ -7,9 +7,8 @@ async function generateOSMDescription(point, currentLat, currentLng) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ 
-                    prompt: `Genera una breu descripció del lloc anomenat ${point.name} situat a les coordenades (${point.lat}, ${point.lng}).`, 
-                    language: selectedLanguage 
-                })
+                    prompt: `Genera una breu descripció en ${selectedLanguage} del lloc anomenat ${point.name} situat a les coordenades (${point.lat}, ${point.lng}).`, 
+                                })
             });
 
             const data = await response.json();
