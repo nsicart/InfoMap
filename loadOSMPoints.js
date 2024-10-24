@@ -86,10 +86,10 @@ async function getSnappedPoint(lat, lng) {
         }
 
         const data = await response.json();
-        if (data && data.snapped_points && data.snapped_points.length > 0) {
+        if (data && data.snappedPoints && data.snappedPoints.length > 0) {
             return {
-                lat: data.snapped_points[0].location[1],
-                lng: data.snapped_points[0].location[0]
+                lat: data.snappedPoints[0].location[1],
+                lng: data.snappedPoints[0].location[0]
             };
         } else {
             console.warn('No s\'ha trobat cap carretera propera per al punt:', lat, lng);
