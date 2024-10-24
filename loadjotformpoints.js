@@ -34,4 +34,7 @@ function loadJotformPoints() {
 }
 
 loadJotformPoints();
+JotformPointsOfInterest.forEach(point => {
+    playJotformAudio(point, currentLat, currentLng);
+});
 
