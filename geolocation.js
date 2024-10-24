@@ -22,5 +22,10 @@ function updateLocation(position) {
     JotformPointsOfInterest.forEach(point => {
         playJotformAudio(point, lat, lng);
     });
+// Cridar a generateOSMDescription i després intentar reproduir l'àudio
+generateOSMDescription(OSMPointsOfInterest[OSMPointsOfInterest.length - 1], lat, lng)
+    .then(() => {
+        playOSMAudio(OSMPointsOfInterest[OSMPointsOfInterest.length - 1], lat, lng);
+    });
 
 }
