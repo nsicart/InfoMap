@@ -1,1 +1,2 @@
-var pointsOfInterest = [];
+var JotformPointsOfInterest = [];
+var OSMPointsOfInterest = [];
