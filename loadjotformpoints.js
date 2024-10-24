@@ -28,11 +28,7 @@ function loadJotformPoints() {
                 }
             });
 
-            // Un cop els punts han estat carregats, reproduir els àudios si es compleixen les condicions
-            JotformPointsOfInterest.forEach(point => {
-                playJotformAudio(point, currentLat, currentLng);
-            });
-        })
+                    })
         .catch(error => {
             console.error('Error carregant els punts d’interès de JotForm: ', error);
         });
