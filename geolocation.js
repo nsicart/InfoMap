@@ -18,4 +18,9 @@ function updateLocation(position) {
 // Carregar punts OSM a prop de la nova ubicació
     loadOSMPoints(lat, lng);
 
+// Després de carregar tots els punts OSM
+OSMPointsOfInterest.forEach(point => {
+    generateOSMDescription(point, point.lat, point.lng);
+});
+
 }
