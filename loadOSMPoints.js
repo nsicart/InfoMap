@@ -27,15 +27,16 @@ async function loadOSMPoints(lat, lng) {
                     const lat = element.lat;
                     const lng = element.lon;
                     const name = element.tags.name;
+                    const osmId = element.id; // Utilitzem l'ID de l'element OSM
 
-                    // Fer el map matching per trobar la carretera més propera
-                    const snappedPoint = await getSnappedPoint(lat, lng);
-                    if (snappedPoint) {
-                        const { lat: snappedLat, lng: snappedLng } = snappedPoint;
+                    // Comprovar si el punt ja existeix a OSMPointsOfInterest
+                    var existeix = OSMPointsOfInterest.some(point => point.osmId === osmId);
+                    if (!existeix) {
+                        // Fer el map matching per trobar la carretera més propera
+                        const snappedPoint = await getSnappedPoint(lat, lng);
+                        if (snappedPoint) {
+                            const { lat: snappedLat, lng: snappedLng } = snappedPoint;
 
-                        // Comprovar si el punt ja existeix a OSMPointsOfInterest
-                        var existeix = OSMPointsOfInterest.some(point => point.lat === snappedLat && point.lng === snappedLng);
-                        if (!existeix) {
                             console.log("Afegint punt d'interès d'OSM: ", snappedLat, snappedLng, name);
                             L.circle([snappedLat, snappedLng], { color: 'blue', fillColor: 'transparent', fillOpacity: 0, radius: 50 })
                                 .bindPopup(name)
@@ -43,15 +44,16 @@ async function loadOSMPoints(lat, lng) {
 
                             // Afegir el punt d'interès a la llista
                             OSMPointsOfInterest.push({
+                                osmId: osmId, // Guardar l'ID per a futures comprovacions
                                 lat: snappedLat,
                                 lng: snappedLng,
                                 name: name,
                                 audioPlayed: false,
                                 source: 'OSM'
                             });
-                        } else {
-                            console.log("El punt ja existeix: ", snappedLat, snappedLng, name);
                         }
+                    } else {
+                        console.log("El punt ja existeix: ", lat, lng, name);
                     }
                 } else {
                     console.warn('Punt d\'interès sense nom, ignorat:', element);
