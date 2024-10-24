@@ -18,7 +18,7 @@ function loadJotformPoints() {
                     L.circle([lat, lng], { color: 'orange', fillColor: 'transparent', fillOpacity: 0, radius: 50 }).addTo(map);
                     
                     // Afegir el punt d'interès a la llista
-                    pointsOfInterest.push({
+                    JotformPointsOfInterest.push({
                         lat: lat,
                         lng: lng,
                         audioUrl: audioUrl,
