@@ -3,8 +3,7 @@ function loadOSMPoints(lat, lng) {
         `[out:json];node(around:5000, ${lat}, ${lng})["natural"];out body;`,
         `[out:json];node(around:5000, ${lat}, ${lng})["waterway"];out body;`,
         `[out:json];node(around:5000, ${lat}, ${lng})["place"];out body;`,
-        `[out:json];node(around:5000, ${lat}, ${lng})["historic"];out body;`,
-        `[out:json];node(around:5000, ${lat}, ${lng})["settlement"];out body;`
+        `[out:json];node(around:5000, ${lat}, ${lng})["historic"];out body;`
     ];
 
     queries.forEach(query => {
