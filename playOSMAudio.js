@@ -1,7 +1,7 @@
 function playOSMAudio(point, currentLat, currentLng) {
     if (audioEnabled && point.source === 'OSM' && point.description && !point.audioPlayed) {
         var distance = map.distance([currentLat, currentLng], [point.lat, point.lng]);
-        if (distance < 50) { // Si estem a menys de 50 metres
+        if (distance < 10) { // Si estem a menys de 50 metres
             const speech = new SpeechSynthesisUtterance(point.description);
             speech.lang = selectedLanguage;
             window.speechSynthesis.speak(speech);
