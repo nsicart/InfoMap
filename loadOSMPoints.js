@@ -62,7 +62,7 @@ function loadOSMPoints(lat, lng) {
                     var existeix = OSMPointsOfInterest.some(point => point.lat === lat && point.lng === lng);
                     if (!existeix) {
                         console.log("Afegint punt d'interès d'OSM: ", lat, lng, name);
-                        L.circle([lat, lng], { color: 'blue', fillColor: 'transparent', fillOpacity: 0, radius: 10 })
+                        L.circle([lat, lng], { color: 'blue', fillColor: 'transparent', fillOpacity: 0, radius: 20 })
                             .bindPopup(name)
                             .addTo(map);
 
